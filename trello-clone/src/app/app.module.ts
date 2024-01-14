@@ -12,6 +12,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { BoardComponent } from './pages/board/board.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     FontAwesomeModule,
     CdkAccordionModule,
     DragDropModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

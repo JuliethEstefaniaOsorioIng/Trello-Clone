@@ -4,7 +4,11 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { ToDo } from 'src/app/models/todo.model';
+import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { ToDo, Column } from 'src/app/models/todo.model';
+import {
+  FormControl,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-board',
@@ -24,28 +28,43 @@ import { ToDo } from 'src/app/models/todo.model';
   ],
 })
 export class BoardComponent {
-  todos: ToDo[] = [
-    {
-      id: '1',
-      title: 'Make dishes',
-    },
-    {
-      id: '2',
-      title: 'Buy a Unicorn',
-    },
-  ];
+  faPlus = faPlus;
+  faXmark = faXmark;
+  list: boolean = false;
 
-  doing: ToDo[] = [
-    {
-      id: '3',
-      title: 'Watch angular path in platzi',
-    },
-  ];
+  name = new FormControl('');
 
-  done: ToDo[] = [
+  columns: Column[] = [
     {
-      id: '4',
-      title: 'play video games',
+      title: 'ToDo',
+      todos: [
+        {
+          id: '1',
+          title: 'Make dishes',
+        },
+        {
+          id: '2',
+          title: 'Buy a Unicorn',
+        },
+      ],
+    },
+    {
+      title: 'Doing',
+      todos: [
+        {
+          id: '3',
+          title: 'Watch angular path in platzi',
+        },
+      ],
+    },
+    {
+      title: 'Done',
+      todos: [
+        {
+          id: '4',
+          title: 'play video games',
+        },
+      ],
     },
   ];
 
@@ -63,6 +82,29 @@ export class BoardComponent {
         event.previousIndex,
         event.currentIndex
       );
+    }
+  }
+
+  dropColumn(event: CdkDragDrop<ToDo[]>) {
+    moveItemInArray(this.columns, event.previousIndex, event.currentIndex);
+  }
+
+  addColumn() {
+    if (this.name.value) {
+      this.columns.push({
+        title: this.name.value,
+        todos: [],
+      });
+    }
+    this.name.reset();
+  }
+
+  newColumn(event: boolean) {
+    if (event === true) {
+      this.list = true;
+      this.name.reset();
+    } else {
+      this.list = false;
     }
   }
 }
