@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -6,9 +6,9 @@ import {
 } from '@angular/cdk/drag-drop';
 import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { ToDo, Column } from 'src/app/models/todo.model';
-import {
-  FormControl,
-} from '@angular/forms';
+import { FormControl } from '@angular/forms';
+import { Dialog } from '@angular/cdk/dialog';
+import { TodoDialogComponent } from 'src/app/components/todo-dialog/todo-dialog.component';
 
 @Component({
   selector: 'app-board',
@@ -28,14 +28,18 @@ import {
   ],
 })
 export class BoardComponent {
+  constructor(private dialog: Dialog) {}
+
   faPlus = faPlus;
   faXmark = faXmark;
   list: boolean = false;
+  card: boolean = false;
 
   name = new FormControl('');
 
   columns: Column[] = [
     {
+      id: '5',
       title: 'ToDo',
       todos: [
         {
@@ -49,6 +53,7 @@ export class BoardComponent {
       ],
     },
     {
+      id: '6',
       title: 'Doing',
       todos: [
         {
@@ -58,6 +63,7 @@ export class BoardComponent {
       ],
     },
     {
+      id: '7',
       title: 'Done',
       todos: [
         {
@@ -92,6 +98,7 @@ export class BoardComponent {
   addColumn() {
     if (this.name.value) {
       this.columns.push({
+        id: '8',
         title: this.name.value,
         todos: [],
       });
@@ -106,5 +113,31 @@ export class BoardComponent {
     } else {
       this.list = false;
     }
+  }
+
+  newCard(event: boolean /*element: string*/) {
+    //console.log(element);
+
+    if (event === true) {
+      this.card = true;
+      this.name.reset();
+    } else {
+      this.card = false;
+    }
+  }
+
+  addCard() {}
+
+  openDialog(todo: ToDo) {
+    const dialogRef = this.dialog.open(TodoDialogComponent, {
+      data: {
+        todo: todo,
+      },
+    });
+
+    dialogRef.closed.subscribe(output=>{
+      console.log(output);
+      
+    });
   }
 }

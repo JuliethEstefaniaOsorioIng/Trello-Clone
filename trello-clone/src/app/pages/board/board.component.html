@@ -28,27 +28,66 @@
             [cdkDropListData]="column.todos"
           >
             <div
+            (click)="openDialog(element)"
               *ngFor="let element of column.todos"
               cdkDrag
               class="bg-white shadow p-2 rounded mt-2 border-b border-x-gray-300 cursor-pointer hover:bg-gray-400"
             >
               {{ element.title }}
             </div>
+            <div class="text-gray-500">
+              <div *ngIf="card === false">
+                <button class="pt-3" (click)="newCard(true)">
+                  <fa-icon class="px-2" [icon]="faPlus"></fa-icon>Add a car
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-        <div *ngIf="list === false"  class="rounded bg-blue-400 hover:bg-blue-500 text-white w-72 p-2 mr-3 shrink-0">
-          <button (click)="newColumn(true)">
-            <fa-icon class="px-2" [icon]="faPlus" ></fa-icon>Add another list
-          </button>
-        </div>
-        <div *ngIf="list === true" class="rounded bg-gray-200 w-72 p-2 mr-3 shrink-0">
-            <input type="text" [formControl]="name" class="form-control rounded border-gray-400" placeholder="Enter list tittle...">
-            <button class="bg-sky-600 text-white rounded w-20 h-8 mt-2" (click)="addColumn()" >
-              Add list 
+          <div *ngIf="card === true" class="pt-3">
+            <input
+              type="text"
+              [formControl]="name"
+              class="form-control rounded border-gray-400"
+              placeholder="Enter a tittle for this card..."
+            />
+            <button
+              class="bg-sky-600 text-white rounded w-20 h-8 mt-2"
+              (click)="addCard()"
+            >
+              Add list
             </button>
             <button class="p-4 size-10" (click)="newColumn(false)">
               <fa-icon class="text-gray-500" [icon]="faXmark"></fa-icon>
             </button>
+          </div>
+        </div>
+        <div
+          *ngIf="list === false"
+          class="rounded bg-blue-400 hover:bg-blue-500 text-white w-72 p-2 mr-3 shrink-0"
+        >
+          <button (click)="newColumn(true)">
+            <fa-icon class="px-2" [icon]="faPlus"></fa-icon>Add another list
+          </button>
+        </div>
+        <div
+          *ngIf="list === true"
+          class="rounded bg-gray-200 w-72 p-2 mr-3 shrink-0"
+        >
+          <input
+            type="text"
+            [formControl]="name"
+            class="form-control rounded border-gray-400"
+            placeholder="Enter list tittle..."
+          />
+          <button
+            class="bg-sky-600 text-white rounded w-20 h-8 mt-2"
+            (click)="addColumn()"
+          >
+            Add list
+          </button>
+          <button class="p-4 size-10" (click)="newColumn(false)">
+            <fa-icon class="text-gray-500" [icon]="faXmark"></fa-icon>
+          </button>
         </div>
       </div>
     </div>
